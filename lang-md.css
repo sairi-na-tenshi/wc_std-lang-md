@@ -1,0 +1,47 @@
+hl\:md-code {
+	font-family: 'Lucida Console', monospace;
+	font-size: .8em;
+	white-space: pre;
+}
+
+hl\:md-block {
+}
+
+hl\:md-header-1 {
+	color: #339;
+	font-size: 32px;
+}
+
+hl\:md-header-2 {
+	color: #339;
+	font-size: 28px;
+}
+
+hl\:md-header-3 {
+	color: #339;
+	font-size: 24px;
+}
+
+hl\:md-quote {
+	color: #393;
+}
+
+hl\:md-list-item {
+	color: #933;
+}
+
+hl\:md-strong {
+	font-weight: bold;
+}
+
+hl\:md-em {
+	font-style: italic;
+}
+
+hl\:md-remark {
+	color: #777;
+}
+
+hl\:md-ghost {
+	color: #ddd;
+}
