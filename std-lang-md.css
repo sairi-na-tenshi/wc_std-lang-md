@@ -1,0 +1,45 @@
+std\:lang-md-block {
+}
+
+std\:lang-md-header-1 {
+	color: #339;
+	font-size: 32px;
+}
+
+std\:lang-md-header-2 {
+	color: #339;
+	font-size: 28px;
+}
+
+std\:lang-md-header-3 {
+	color: #339;
+	font-size: 24px;
+}
+
+std\:lang-md-quote {
+	color: #393;
+}
+
+std\:lang-md-strong {
+	font-weight: bold;
+}
+
+std\:lang-md-emphasis {
+	font-style: italic;
+}
+
+std\:lang-md-remark {
+	color: #777;
+}
+
+std\:lang-md-link {
+	color: #77f;
+}
+
+std\:lang-md-link-title {
+	color: #039;
+}
+
+std\:lang-md-ghost {
+	color: #ddd;
+}
