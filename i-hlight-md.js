@@ -1,44 +1,61 @@
 with( HLight ) lang.md_inline= FConcurentLang( new function(){
+	var wrapGhost= TagWrapper( 'i:hlight-md-ghost' )
+	var wrapQuote= TagWrapper( 'i:hlight-md-quote' )
+	var wrapRemark= TagWrapper( 'i:hlight-md-remark' )
+	var wrapStrong= TagWrapper( 'i:hlight-md-strong' )
+	var wrapEm= TagWrapper( 'i:hlight-md-em' )
+	var wrapCode= TagWrapper( 'i:hlight-md-code' )
+	var wrapLink= TagWrapper( 'i:hlight-md-link' )
+
+	this[ '((?:ftp|http):\\/\\/\\S+)' ]= function( href ){
+		href= wrapLink( lang.text( href ) )
+		return href
+	}
 	this[ '(""|\\*\\*|//|``)' ]= function( str ){
-		return str.charAt(0) + '<hl:md-ghost>' + str.charAt(1) + '</hl:md-ghost>'
+		return str.charAt(0) + wrapGhost( str.charAt(1) )
 	}
 	this[ '(^|[\\s\\n])"([^"\\s](?:[\\s\\S]*?[^"\\s])?)"(?=[\\s,.;\\n]|$)' ]= function( prefix, content ){
 		prefix= lang.text( prefix )
 		content= lang.md_inline( content )
-		return prefix + '<hl:md-quote>"' + content + '"</hl:md-quote>'
+		return prefix + wrapQuote( '"' + content + '"' )
 	}
 	this[ "(^|[\\s\\n])'([^'\\s](?:[\\s\\S]*?[^'\\s])?)'(?=[\\s,.;\\n]|$)" ]= function( prefix, content ){
 		prefix= lang.text( prefix )
 		content= lang.md_inline( content )
-		return prefix + "<hl:md-quote>'" + content + "'</hl:md-quote>"
+		return prefix + wrapQuote( "'" + content + "'" )
 	}
 	this[ '«([\\s\\S]+?)»' ]= function( content ){
 		content= lang.md_inline( content )
-		return '«<hl:md-quote>' + content + '</hl:md-quote>»'
+		return wrapQuote( '«' + content + '»' )
 	}
 	this[ '(^|[\\s\\n])\\(([^\\(\\s](?:[\\s\\S]*?[^\\)\\s])?)\\)(?=[\\s,.;\\n]|$)' ]= function( prefix, content ){
 		prefix= lang.text( prefix )
 		content= lang.md_inline( content )
-		return prefix + '<hl:md-remark>(' + content + ')</hl:md-remark>'
+		return prefix + wrapRemark( '(' + content + ')' )
 	}
 	this[ '(^|[\\s\\n])\\*([^*\\s](?:[\\s\\S]*?[^*\\s])?)\\*(?=[\\s,.;\\n]|$)' ]= function( prefix, content ){
 		prefix= lang.text( prefix )
-		content= lang.md_inline( content )
-		return prefix + '<hl:md-ghost>*</hl:md-ghost><hl:md-strong>' + content + '</hl:md-strong><hl:md-ghost>*</hl:md-ghost>'
+		content= wrapStrong( lang.md_inline( content ) )
+		var marker= wrapGhost( '*' )
+		return prefix + marker + content + marker
 	}
 	this[ '(^|[\\s\\n])/([^/\\s](?:[\\s\\S]*?[^/\\s])?)/(?=[\\s,.;\\n]|$)' ]= function( prefix, content ){
 		prefix= lang.text( prefix )
-		content= lang.md_inline( content )
-		return prefix + '<hl:md-ghost>/</hl:md-ghost><hl:md-em>' + content + '</hl:md-em><hl:md-ghost>/</hl:md-ghost>'
+		content= wrapEm( lang.md_inline( content ) )
+		var marker= wrapGhost( '/' )
+		return prefix + marker + content + marker
 	}
 	this[ '`([\\s\\S]+?)`' ]= function( content ){
-		content= lang.code( content )
-		return '<hl:md-ghost>`</hl:md-ghost><hl:md-code>' + content + '</hl:md-code><hl:md-ghost>`</hl:md-ghost>'
+		content= wrapCode( lang.text( content ) )
+		var marker= wrapGhost( '`' )
+		return marker + content + marker
 	}
 })
 
 with( HLight ) lang.md= FConcurentLang( new function(){
-	var Ghost= TagWrapper( 'hl:md-ghost' )
+	var wrapGhost= TagWrapper( 'i:hlight-md-ghost' )
+	var wrapBlock= TagWrapper( 'i:hlight-md-block' )
+
 	var brIn= '\n'
 	var brOut= lang.text( brIn )
 	var FirstBREnshurer= function( func ){
@@ -53,7 +70,7 @@ with( HLight ) lang.md= FConcurentLang( new function(){
 	var RecursiveBlock= function( marker, name, contentLang ){
 		var markerIn= brIn + marker
 		var markerOut= brOut + lang.text( marker )
-		var markerOutGhost= Ghost( markerOut )
+		var markerOutGhost= wrapGhost( markerOut )
 		var blockWrap= TagWrapper( name )
 		return FirstBREnshurer( function( content ){
 			content= content.split( markerIn ).join( brIn )
@@ -66,16 +83,16 @@ with( HLight ) lang.md= FConcurentLang( new function(){
 	this[ '(^|\\n)(!{1,3} )([^\\n]*)' ]= function( prefix, marker, content ){
 		var level= marker.length - 1
 		prefix= lang.text( prefix )
-		marker= '<hl:md-ghost>' + marker + '</hl:md-ghost>'
-		content= '<hl:md-header-' + level + '>' + lang.md_inline( content ) + '</hl:md-header-' + level + '>'
+		marker= wrapGhost( marker )
+		content= TagWrapper( 'i:hlight-md-header-' + level )( lang.md_inline( content ) )
 		return prefix + marker + content
 	}
-	this[ '((?:(?:^|\\n)> [^\\n]*)+)' ]= RecursiveBlock( '> ', 'hl:md-quote', 'md' )
-	this[ '((?:(?:^|\\n)  [^\\n]*)+)' ]= RecursiveBlock( '  ', 'hl:md-code', 'code' )
-	this[ '((?:(?:^|\\n)\\t[^\\n]*)+)' ]= RecursiveBlock( '\t', 'hl:md-code', 'code' )
-	this[ '((?:(?:^|\\n)\\* [^\\n]*)+)' ]= RecursiveBlock( '\*', 'hl:md-list-item', 'md' )
+	this[ '((?:(?:^|\\n)> [^\\n]*)+)' ]= RecursiveBlock( '> ', 'i:hlight-md-quote', 'md' )
+	this[ '((?:(?:^|\\n)  [^\\n]*)+)' ]= RecursiveBlock( '  ', 'i:hlight-md-code', 'code' )
+	this[ '((?:(?:^|\\n)\\t[^\\n]*)+)' ]= RecursiveBlock( '\t', 'i:hlight-md-code', 'code' )
+	this[ '((?:(?:^|\\n)\\* [^\\n]*)+)' ]= RecursiveBlock( '\*', 'i:hlight-md-list-item', 'md' )
 	this[ '((?:(?:^|\\n)(?!> |\t|  |\\* )[^\\n]+)+)' ]= function( content ){
-		content= lang.md_inline( content )
-		return '<hl:md-block>' + content + '</hl:md-block>'
+		content= wrapBlock( lang.md_inline( content ) )
+		return content
 	}
 })

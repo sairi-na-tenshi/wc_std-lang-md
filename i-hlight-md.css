@@ -1,0 +1,57 @@
+i\:hlight-md-code {
+	font-size: .85em;
+	line-height: 1em;
+	font-family: 'Lucida Console', monospace;
+	white-space: pre;
+}
+
+i\:hlight-md-block {
+}
+
+i\:hlight-md-header-1 {
+	color: #339;
+	font-size: 32px;
+}
+
+i\:hlight-md-header-2 {
+	color: #339;
+	font-size: 28px;
+}
+
+i\:hlight-md-header-3 {
+	color: #339;
+	font-size: 24px;
+}
+
+i\:hlight-md-quote {
+	color: #393;
+}
+
+i\:hlight-md-list-item {
+	color: #933;
+}
+
+i\:hlight-md-strong {
+	font-weight: bold;
+}
+
+i\:hlight-md-em {
+	font-style: italic;
+}
+
+i\:hlight-md-remark {
+	color: #777;
+}
+
+i\:hlight-md-link {
+	color: #77f;
+}
+
+i\:hlight-md-ghost {
+	color: #ddd;
+}
+
+i\:hlight i\:hlight-md-ghost {
+	width: 0;
+	font-size: 0;
+}
