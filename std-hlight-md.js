@@ -1,11 +1,11 @@
 with( HLight ) lang.md_inline= FConcurentLang( new function(){
-	var wrapGhost= TagWrapper( 'i:hlight-md-ghost' )
-	var wrapQuote= TagWrapper( 'i:hlight-md-quote' )
-	var wrapRemark= TagWrapper( 'i:hlight-md-remark' )
-	var wrapStrong= TagWrapper( 'i:hlight-md-strong' )
-	var wrapEm= TagWrapper( 'i:hlight-md-em' )
-	var wrapCode= TagWrapper( 'i:hlight-md-code' )
-	var wrapLink= TagWrapper( 'i:hlight-md-link' )
+	var wrapGhost= TagWrapper( 'std:hlight-md-ghost' )
+	var wrapQuote= TagWrapper( 'std:hlight-md-quote' )
+	var wrapRemark= TagWrapper( 'std:hlight-md-remark' )
+	var wrapStrong= TagWrapper( 'std:hlight-md-strong' )
+	var wrapEm= TagWrapper( 'std:hlight-md-em' )
+	var wrapCode= TagWrapper( 'std:hlight-md-code' )
+	var wrapLink= TagWrapper( 'std:hlight-md-link' )
 
 	this[ '((?:ftp|http):\\/\\/\\S+)' ]= function( href ){
 		href= wrapLink( lang.text( href ) )
@@ -53,8 +53,8 @@ with( HLight ) lang.md_inline= FConcurentLang( new function(){
 })
 
 with( HLight ) lang.md= FConcurentLang( new function(){
-	var wrapGhost= TagWrapper( 'i:hlight-md-ghost' )
-	var wrapBlock= TagWrapper( 'i:hlight-md-block' )
+	var wrapGhost= TagWrapper( 'std:hlight-md-ghost' )
+	var wrapBlock= TagWrapper( 'std:hlight-md-block' )
 
 	var brIn= '\n'
 	var brOut= lang.text( brIn )
@@ -84,13 +84,13 @@ with( HLight ) lang.md= FConcurentLang( new function(){
 		var level= marker.length - 1
 		prefix= lang.text( prefix )
 		marker= wrapGhost( marker )
-		content= TagWrapper( 'i:hlight-md-header-' + level )( lang.md_inline( content ) )
+		content= TagWrapper( 'std:hlight-md-header-' + level )( lang.md_inline( content ) )
 		return prefix + marker + content
 	}
-	this[ '((?:(?:^|\\n)> [^\\n]*)+)' ]= RecursiveBlock( '> ', 'i:hlight-md-quote', 'md' )
-	this[ '((?:(?:^|\\n)  [^\\n]*)+)' ]= RecursiveBlock( '  ', 'i:hlight-md-code', 'code' )
-	this[ '((?:(?:^|\\n)\\t[^\\n]*)+)' ]= RecursiveBlock( '\t', 'i:hlight-md-code', 'code' )
-	this[ '((?:(?:^|\\n)\\* [^\\n]*)+)' ]= RecursiveBlock( '\*', 'i:hlight-md-list-item', 'md' )
+	this[ '((?:(?:^|\\n)> [^\\n]*)+)' ]= RecursiveBlock( '> ', 'std:hlight-md-quote', 'md' )
+	this[ '((?:(?:^|\\n)  [^\\n]*)+)' ]= RecursiveBlock( '  ', 'std:hlight-md-code', 'code' )
+	this[ '((?:(?:^|\\n)\\t[^\\n]*)+)' ]= RecursiveBlock( '\t', 'std:hlight-md-code', 'code' )
+	this[ '((?:(?:^|\\n)\\* [^\\n]*)+)' ]= RecursiveBlock( '\*', 'std:hlight-md-list-item', 'md' )
 	this[ '((?:(?:^|\\n)(?!> |\t|  |\\* )[^\\n]+)+)' ]= function( content ){
 		content= wrapBlock( lang.md_inline( content ) )
 		return content
