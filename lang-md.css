@@ -1,6 +1,7 @@
 hl\:md-code {
+	font-size: .85em;
+	line-height: 1em;
 	font-family: 'Lucida Console', monospace;
-	font-size: .8em;
 	white-space: pre;
 }
 
